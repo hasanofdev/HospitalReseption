@@ -30,7 +30,6 @@ public partial class HospitalRegestration : System.Windows.Forms.Form
         WindowSize = new Size(Size.Width, Size.Height);
         MainPanel.Visible = false;
         RegisterPanel.BringToFront();
-        FakeDataGen();
     }
 
     private void HospitalRegestration_SizeChanged(object sender, EventArgs e)
@@ -102,8 +101,9 @@ public partial class HospitalRegestration : System.Windows.Forms.Form
             ErrorLbl.Text = String.Empty;
     }
 
-    public void FakeDataGen()
+    public void FakeDataGen(int count)
     {
+        DoctorsLayout.Controls.Clear();
         //Doctors = new Faker<Doctor>()
         //     .RuleFor(u => u.Name, f => f.Person.FirstName)
         //     .RuleFor(u => u.Surname, f => f.Person.LastName)
@@ -115,14 +115,19 @@ public partial class HospitalRegestration : System.Windows.Forms.Form
         var stringData = File.ReadAllText("../../../Resources/DoctorsJson.json");
         Doctors = JsonConvert.DeserializeObject<List<Doctor>>(stringData)!;
 
-
-        foreach (var doctor in Doctors)
-           DoctorsLayout.Controls.Add(new DoctorUserControl(doctor));
+        for (int i = 0; i < count; i++)
+            DoctorsLayout.Controls.Add(new DoctorUserControl(Doctors[i]));
     }
 
     private void HospitalRegestration_FormClosed(object sender, FormClosedEventArgs e)
     {
         var jsonString = JsonConvert.SerializeObject(Doctors, Newtonsoft.Json.Formatting.None);
         File.WriteAllText("../../../Resources/DoctorsJson.json", jsonString);
+    }
+
+    private void SectionCombo_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        Random rdm = new Random();
+        FakeDataGen(rdm.Next(rdm.Next(1, 15)));
     }
 }

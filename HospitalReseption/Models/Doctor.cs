@@ -14,5 +14,5 @@ public class Doctor
     public string? ImageUrl { get; set; }
 
     
-    public List<string> ReservTimes = new() { "09:00-11:00", "12:00-14:00", "15:00-17:00" };
+    public List<string>? ReservTimes;
 }

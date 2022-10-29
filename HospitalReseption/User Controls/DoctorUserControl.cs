@@ -21,6 +21,9 @@ namespace HospitalReseption.User_Controls
             DoctorPicture.Load(_Doctor.ImageUrl);
             DoctorFullNameLbl.Text = _Doctor.Name + "\n" + _Doctor.Surname;
             ExperienceLbl.Text += _Doctor.Experience.ToString();
+
+            foreach (var time in _Doctor.ReservTimes!)
+                ReservTimesCombo.Items.Add(time);
         }
 
         private void ReservBtn_Click(object sender, EventArgs e)
@@ -32,27 +35,30 @@ namespace HospitalReseption.User_Controls
         {
             Button? btn = sender as Button;
 
-            switch (btn.Text)
+            if (btn is null)
+                return;
+
+            switch (btn!.Text)
             {
                 case "Submit":
                     if (ReservTimesCombo.SelectedItem is not null)
                     {
+                        _Doctor.ReservTimes!.Remove(ReservTimesCombo.SelectedItem.ToString()!);
                         ReservTimesCombo.Items.Remove(ReservTimesCombo.SelectedItem.ToString());
-                        _Doctor.ReservTimes.Remove(ReservTimesCombo.SelectedItem.ToString());
+
                         var mainPanel = this.Parent.Parent as Panel;
-                        var form = mainPanel.Parent;
+                        var form = mainPanel!.Parent;
+
                         foreach (var control in form.Controls)
-                        {
                             if (control is Control control1 && control1.Name == "RegisterPanel")
-                            {
-                                control1.Refresh();
                                 control1.Visible = true;
-                            }
-                        }
-                        mainPanel.Refresh();
+
+                        panel1.Visible = false;
                         mainPanel.Visible = false;
                     }
-                    break;
+                    if (_Doctor.ReservTimes!.Count == 0)
+                        btn.Enabled = false;
+                        break;
                 case "Cancel":
                     panel1.Visible = false;
                     break;

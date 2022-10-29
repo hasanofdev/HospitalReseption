@@ -224,10 +224,11 @@ partial class HospitalRegestration
             "Pediatriya",
             "Travmatologiya",
             "Stamotologiya"});
-            this.SectionCombo.Location = new System.Drawing.Point(716, 80);
+            this.SectionCombo.Location = new System.Drawing.Point(0, 72);
             this.SectionCombo.Name = "SectionCombo";
             this.SectionCombo.Size = new System.Drawing.Size(156, 23);
             this.SectionCombo.TabIndex = 2;
+            this.SectionCombo.SelectedIndexChanged += new System.EventHandler(this.SectionCombo_SelectedIndexChanged);
             // 
             // DoctorsLayout
             // 

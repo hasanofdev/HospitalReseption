@@ -134,10 +134,6 @@
             // 
             this.ReservTimesCombo.Dock = System.Windows.Forms.DockStyle.Top;
             this.ReservTimesCombo.FormattingEnabled = true;
-            this.ReservTimesCombo.Items.AddRange(new object[] {
-            "09:00-11:00",
-            "12:00-14:00",
-            "15:00-17:00"});
             this.ReservTimesCombo.Location = new System.Drawing.Point(0, 0);
             this.ReservTimesCombo.Name = "ReservTimesCombo";
             this.ReservTimesCombo.Size = new System.Drawing.Size(125, 23);
