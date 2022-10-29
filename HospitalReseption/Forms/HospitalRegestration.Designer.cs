@@ -42,6 +42,7 @@ partial class HospitalRegestration
             this.NameLbl = new System.Windows.Forms.Label();
             this.WelcomeLbl = new System.Windows.Forms.Label();
             this.MainPanel = new System.Windows.Forms.Panel();
+            this.SectionCombo = new System.Windows.Forms.ComboBox();
             this.DoctorsLayout = new System.Windows.Forms.FlowLayoutPanel();
             this.DoctorsLbl = new System.Windows.Forms.Label();
             this.HeaderPanel = new System.Windows.Forms.Panel();
@@ -206,6 +207,7 @@ partial class HospitalRegestration
             // MainPanel
             // 
             this.MainPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(27)))), ((int)(((byte)(38)))), ((int)(((byte)(59)))));
+            this.MainPanel.Controls.Add(this.SectionCombo);
             this.MainPanel.Controls.Add(this.DoctorsLayout);
             this.MainPanel.Controls.Add(this.DoctorsLbl);
             this.MainPanel.Controls.Add(this.HeaderPanel);
@@ -214,6 +216,18 @@ partial class HospitalRegestration
             this.MainPanel.Name = "MainPanel";
             this.MainPanel.Size = new System.Drawing.Size(884, 561);
             this.MainPanel.TabIndex = 1;
+            // 
+            // SectionCombo
+            // 
+            this.SectionCombo.FormattingEnabled = true;
+            this.SectionCombo.Items.AddRange(new object[] {
+            "Pediatriya",
+            "Travmatologiya",
+            "Stamotologiya"});
+            this.SectionCombo.Location = new System.Drawing.Point(716, 80);
+            this.SectionCombo.Name = "SectionCombo";
+            this.SectionCombo.Size = new System.Drawing.Size(156, 23);
+            this.SectionCombo.TabIndex = 2;
             // 
             // DoctorsLayout
             // 
@@ -269,6 +283,7 @@ partial class HospitalRegestration
             this.Name = "HospitalRegestration";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Hospital Regestration";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.HospitalRegestration_FormClosed);
             this.SizeChanged += new System.EventHandler(this.HospitalRegestration_SizeChanged);
             this.RegisterPanel.ResumeLayout(false);
             this.RegisterPanel.PerformLayout();
@@ -289,7 +304,6 @@ partial class HospitalRegestration
     private Label PhoneLbl;
     private Label SurnameLbl;
     private Label NameLbl;
-    private Panel MainPanel;
     private MaskedTextBox PhoneTxt;
     private TextBox NameTxt;
     private Panel HeaderPanel;
@@ -297,4 +311,6 @@ partial class HospitalRegestration
     private Label DoctorsLbl;
     private Label ErrorLbl;
     private FlowLayoutPanel DoctorsLayout;
+    private ComboBox SectionCombo;
+    public Panel MainPanel;
 }

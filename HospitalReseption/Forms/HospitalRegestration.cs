@@ -1,6 +1,7 @@
 ﻿using Bogus;
 using HospitalReseption.Models;
 using HospitalReseption.User_Controls;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -23,7 +24,9 @@ public partial class HospitalRegestration : System.Windows.Forms.Form
     public string MailPattern = @"^(?("")("".+?(?<!\\)""@)|(([0-9a-z]((\.(?!\.))|[-!#\$%&'\*\+/=\?\^`\{\}\|~\w])*)(?<=[0-9a-z])@))(?(\[)(\[(\d{1,3}\.){3}\d{1,3}\])|(([0-9a-z][-\w]*[0-9a-z]*\.)+[a-z0-9][\-a-z0-9]{0,22}[a-z0-9]))$";
     public HospitalRegestration()
     {
+        
         InitializeComponent();
+        Doctors = new();
         WindowSize = new Size(Size.Width, Size.Height);
         MainPanel.Visible = false;
         RegisterPanel.BringToFront();
@@ -34,11 +37,6 @@ public partial class HospitalRegestration : System.Windows.Forms.Form
     {
         if (Size.Width == 160 && Size.Height == 28)
             return;
-
-        if (RegisterPanel.Location.X <= 0)
-            RegisterPanel.Visible = false;
-        else if (RegisterPanel.Location.X > 0)
-            RegisterPanel.Visible = true;
 
         if (Size.Width > WindowSize.Width || Size.Height > WindowSize.Height)
         {
@@ -71,8 +69,7 @@ public partial class HospitalRegestration : System.Windows.Forms.Form
             RegisterPanel.Visible = false;
             MainPanel.Visible = true;
             PasientFullnameLbl.Text = pasient.Name + " " + pasient.Surname + " - " + Phone;
-            RegisterPanel.Dispose();
-            FakeDataGen();
+            RegisterPanel.Visible = false;
             return;
         }
         StringBuilder errorMessage = new StringBuilder("");
@@ -105,20 +102,27 @@ public partial class HospitalRegestration : System.Windows.Forms.Form
             ErrorLbl.Text = String.Empty;
     }
 
-    public async void FakeDataGen()
+    public void FakeDataGen()
     {
-       Doctors = new Faker<Doctor>()
-            .RuleFor(u => u.Name, f => f.Person.FirstName)
-            .RuleFor(u => u.Surname, f => f.Person.LastName)
-            .RuleFor(u => u.ImageUrl, f => f.Person.Avatar)
-            .Generate(10);
-        Random rdm = new Random();
+        //Doctors = new Faker<Doctor>()
+        //     .RuleFor(u => u.Name, f => f.Person.FirstName)
+        //     .RuleFor(u => u.Surname, f => f.Person.LastName)
+        //     .RuleFor(u => u.ImageUrl, f => f.Person.Avatar)
+        //     .Generate(15);
 
-        Doctors.ForEach(d => d.Experience = rdm.Next(1, 10));
+        //Doctors.ForEach(d => d.Experience = rdm.Next(1, 10));
+
+        var stringData = File.ReadAllText("../../../Resources/DoctorsJson.json");
+        Doctors = JsonConvert.DeserializeObject<List<Doctor>>(stringData)!;
+
 
         foreach (var doctor in Doctors)
-            DoctorsLayout.Controls.Add(new DoctorUserControl(doctor.ImageUrl, doctor.Name, doctor.Surname, doctor.Experience));
+           DoctorsLayout.Controls.Add(new DoctorUserControl(doctor));
+    }
 
-
+    private void HospitalRegestration_FormClosed(object sender, FormClosedEventArgs e)
+    {
+        var jsonString = JsonConvert.SerializeObject(Doctors, Newtonsoft.Json.Formatting.None);
+        File.WriteAllText("../../../Resources/DoctorsJson.json", jsonString);
     }
 }
