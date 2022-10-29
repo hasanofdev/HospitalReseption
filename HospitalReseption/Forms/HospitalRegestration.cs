@@ -1,4 +1,6 @@
-﻿using HospitalReseption.Models;
+﻿using Bogus;
+using HospitalReseption.Models;
+using HospitalReseption.User_Controls;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -14,6 +16,8 @@ namespace HospitalReseption.Forms;
 public partial class HospitalRegestration : System.Windows.Forms.Form
 {
     public Size WindowSize;
+    public List<Doctor> Doctors;
+
     public string PhonePattern = @"^(050|051|055|070|077|099).*$";
     public string AllCharPattern = @"^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$";
     public string MailPattern = @"^(?("")("".+?(?<!\\)""@)|(([0-9a-z]((\.(?!\.))|[-!#\$%&'\*\+/=\?\^`\{\}\|~\w])*)(?<=[0-9a-z])@))(?(\[)(\[(\d{1,3}\.){3}\d{1,3}\])|(([0-9a-z][-\w]*[0-9a-z]*\.)+[a-z0-9][\-a-z0-9]{0,22}[a-z0-9]))$";
@@ -22,8 +26,8 @@ public partial class HospitalRegestration : System.Windows.Forms.Form
         InitializeComponent();
         WindowSize = new Size(Size.Width, Size.Height);
         MainPanel.Visible = false;
-        MainPanel.SendToBack();
         RegisterPanel.BringToFront();
+        FakeDataGen();
     }
 
     private void HospitalRegestration_SizeChanged(object sender, EventArgs e)
@@ -48,21 +52,18 @@ public partial class HospitalRegestration : System.Windows.Forms.Form
         }
     }
 
-    private void PasientTxt_TextChanged(object sender, EventArgs e)
+    private void PasientFullName_TextChanged(object sender, EventArgs e)
     {
-
         var tb = sender as TextBox;
         if (!Regex.IsMatch(tb!.Text, AllCharPattern) || tb.Text.Length < 3)
-        {
             tb.ForeColor = Color.Red;
-        }
         else tb.ForeColor = Color.Black;
     }
 
     private void EnterBtn_Click(object sender, EventArgs e)
     {
         bool FullnameIsCorrect = (Regex.IsMatch(NameTxt.Text, AllCharPattern) && Regex.IsMatch(SurnameTxt.Text, AllCharPattern))
-            &&(NameTxt.Text.Length > 2 && SurnameTxt.Text.Length > 2);
+            && (NameTxt.Text.Length > 2 && SurnameTxt.Text.Length > 2);
         string Phone = PhoneTxt.Text.Split('-')[0] + PhoneTxt.Text.Split('-')[1] + PhoneTxt.Text.Split('-')[2];
         if ((Regex.IsMatch(EmailTxt.Text, MailPattern) && Regex.IsMatch(Phone, PhonePattern) && Phone.Length == 10) && FullnameIsCorrect)
         {
@@ -70,6 +71,8 @@ public partial class HospitalRegestration : System.Windows.Forms.Form
             RegisterPanel.Visible = false;
             MainPanel.Visible = true;
             PasientFullnameLbl.Text = pasient.Name + " " + pasient.Surname + " - " + Phone;
+            RegisterPanel.Dispose();
+            FakeDataGen();
             return;
         }
         StringBuilder errorMessage = new StringBuilder("");
@@ -91,7 +94,7 @@ public partial class HospitalRegestration : System.Windows.Forms.Form
         if (keyData == Keys.Enter)
         {
             if (this.ActiveControl.Handle != EnterBtn.Handle)
-                this.SelectNextControl(EmailTxt,true,true,true,true);
+                this.SelectNextControl(EmailTxt, true, true, true, true);
         }
         return base.ProcessCmdKey(ref msg, keyData);
     }
@@ -100,5 +103,22 @@ public partial class HospitalRegestration : System.Windows.Forms.Form
     {
         if (e.Button == MouseButtons.Left)
             ErrorLbl.Text = String.Empty;
+    }
+
+    public async void FakeDataGen()
+    {
+       Doctors = new Faker<Doctor>()
+            .RuleFor(u => u.Name, f => f.Person.FirstName)
+            .RuleFor(u => u.Surname, f => f.Person.LastName)
+            .RuleFor(u => u.ImageUrl, f => f.Person.Avatar)
+            .Generate(10);
+        Random rdm = new Random();
+
+        Doctors.ForEach(d => d.Experience = rdm.Next(1, 10));
+
+        foreach (var doctor in Doctors)
+            DoctorsLayout.Controls.Add(new DoctorUserControl(doctor.ImageUrl, doctor.Name, doctor.Surname, doctor.Experience));
+
+
     }
 }

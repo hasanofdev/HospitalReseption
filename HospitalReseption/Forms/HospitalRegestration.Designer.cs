@@ -42,13 +42,12 @@ partial class HospitalRegestration
             this.NameLbl = new System.Windows.Forms.Label();
             this.WelcomeLbl = new System.Windows.Forms.Label();
             this.MainPanel = new System.Windows.Forms.Panel();
-            this.DoctorsGridView = new System.Windows.Forms.DataGridView();
+            this.DoctorsLayout = new System.Windows.Forms.FlowLayoutPanel();
             this.DoctorsLbl = new System.Windows.Forms.Label();
             this.HeaderPanel = new System.Windows.Forms.Panel();
             this.PasientFullnameLbl = new System.Windows.Forms.Label();
             this.RegisterPanel.SuspendLayout();
             this.MainPanel.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.DoctorsGridView)).BeginInit();
             this.HeaderPanel.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -152,6 +151,7 @@ partial class HospitalRegestration
             this.SurnameTxt.Size = new System.Drawing.Size(160, 23);
             this.SurnameTxt.TabIndex = 1;
             this.SurnameTxt.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.SurnameTxt.TextChanged += new System.EventHandler(this.PasientFullName_TextChanged);
             this.SurnameTxt.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Txt_MouseDown);
             // 
             // SurnameLbl
@@ -177,6 +177,7 @@ partial class HospitalRegestration
             this.NameTxt.Size = new System.Drawing.Size(160, 23);
             this.NameTxt.TabIndex = 0;
             this.NameTxt.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.NameTxt.TextChanged += new System.EventHandler(this.PasientFullName_TextChanged);
             this.NameTxt.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Txt_MouseDown);
             // 
             // NameLbl
@@ -205,25 +206,23 @@ partial class HospitalRegestration
             // MainPanel
             // 
             this.MainPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(27)))), ((int)(((byte)(38)))), ((int)(((byte)(59)))));
-            this.MainPanel.Controls.Add(this.DoctorsGridView);
+            this.MainPanel.Controls.Add(this.DoctorsLayout);
             this.MainPanel.Controls.Add(this.DoctorsLbl);
             this.MainPanel.Controls.Add(this.HeaderPanel);
             this.MainPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.MainPanel.Location = new System.Drawing.Point(0, 0);
             this.MainPanel.Name = "MainPanel";
-            this.MainPanel.Size = new System.Drawing.Size(784, 561);
+            this.MainPanel.Size = new System.Drawing.Size(884, 561);
             this.MainPanel.TabIndex = 1;
             // 
-            // DoctorsGridView
+            // DoctorsLayout
             // 
-            this.DoctorsGridView.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(27)))), ((int)(((byte)(38)))), ((int)(((byte)(59)))));
-            this.DoctorsGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.DoctorsGridView.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.DoctorsGridView.Location = new System.Drawing.Point(0, 109);
-            this.DoctorsGridView.Name = "DoctorsGridView";
-            this.DoctorsGridView.RowTemplate.Height = 25;
-            this.DoctorsGridView.Size = new System.Drawing.Size(784, 452);
-            this.DoctorsGridView.TabIndex = 1;
+            this.DoctorsLayout.AutoScroll = true;
+            this.DoctorsLayout.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.DoctorsLayout.Location = new System.Drawing.Point(0, 109);
+            this.DoctorsLayout.Name = "DoctorsLayout";
+            this.DoctorsLayout.Size = new System.Drawing.Size(884, 452);
+            this.DoctorsLayout.TabIndex = 3;
             // 
             // DoctorsLbl
             // 
@@ -232,7 +231,7 @@ partial class HospitalRegestration
             this.DoctorsLbl.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(82)))), ((int)(((byte)(183)))), ((int)(((byte)(136)))));
             this.DoctorsLbl.Location = new System.Drawing.Point(0, 55);
             this.DoctorsLbl.Name = "DoctorsLbl";
-            this.DoctorsLbl.Size = new System.Drawing.Size(784, 54);
+            this.DoctorsLbl.Size = new System.Drawing.Size(884, 54);
             this.DoctorsLbl.TabIndex = 2;
             this.DoctorsLbl.Text = "Doctors";
             this.DoctorsLbl.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -243,7 +242,7 @@ partial class HospitalRegestration
             this.HeaderPanel.Dock = System.Windows.Forms.DockStyle.Top;
             this.HeaderPanel.Location = new System.Drawing.Point(0, 0);
             this.HeaderPanel.Name = "HeaderPanel";
-            this.HeaderPanel.Size = new System.Drawing.Size(784, 55);
+            this.HeaderPanel.Size = new System.Drawing.Size(884, 55);
             this.HeaderPanel.TabIndex = 0;
             // 
             // PasientFullnameLbl
@@ -253,7 +252,7 @@ partial class HospitalRegestration
             this.PasientFullnameLbl.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(178)))), ((int)(((byte)(211)))), ((int)(((byte)(168)))));
             this.PasientFullnameLbl.Location = new System.Drawing.Point(0, 0);
             this.PasientFullnameLbl.Name = "PasientFullnameLbl";
-            this.PasientFullnameLbl.Size = new System.Drawing.Size(784, 55);
+            this.PasientFullnameLbl.Size = new System.Drawing.Size(884, 55);
             this.PasientFullnameLbl.TabIndex = 0;
             this.PasientFullnameLbl.Text = "Pasient Fullname - Phone";
             this.PasientFullnameLbl.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -263,17 +262,17 @@ partial class HospitalRegestration
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(65)))), ((int)(((byte)(90)))), ((int)(((byte)(119)))));
-            this.ClientSize = new System.Drawing.Size(784, 561);
+            this.ClientSize = new System.Drawing.Size(884, 561);
             this.Controls.Add(this.MainPanel);
             this.Controls.Add(this.RegisterPanel);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "HospitalRegestration";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Hospital Regestration";
             this.SizeChanged += new System.EventHandler(this.HospitalRegestration_SizeChanged);
             this.RegisterPanel.ResumeLayout(false);
             this.RegisterPanel.PerformLayout();
             this.MainPanel.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.DoctorsGridView)).EndInit();
             this.HeaderPanel.ResumeLayout(false);
             this.ResumeLayout(false);
 
@@ -295,7 +294,7 @@ partial class HospitalRegestration
     private TextBox NameTxt;
     private Panel HeaderPanel;
     private Label PasientFullnameLbl;
-    private DataGridView DoctorsGridView;
     private Label DoctorsLbl;
     private Label ErrorLbl;
+    private FlowLayoutPanel DoctorsLayout;
 }
