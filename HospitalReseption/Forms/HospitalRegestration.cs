@@ -61,12 +61,44 @@ public partial class HospitalRegestration : System.Windows.Forms.Form
 
     private void EnterBtn_Click(object sender, EventArgs e)
     {
-        bool FullnameIsCorrect = Regex.IsMatch(NameTxt.Text, AllCharPattern) && Regex.IsMatch(SurnameTxt.Text, AllCharPattern);
+        bool FullnameIsCorrect = (Regex.IsMatch(NameTxt.Text, AllCharPattern) && Regex.IsMatch(SurnameTxt.Text, AllCharPattern))
+            &&(NameTxt.Text.Length > 2 && SurnameTxt.Text.Length > 2);
         string Phone = PhoneTxt.Text.Split('-')[0] + PhoneTxt.Text.Split('-')[1] + PhoneTxt.Text.Split('-')[2];
         if ((Regex.IsMatch(EmailTxt.Text, MailPattern) && Regex.IsMatch(Phone, PhonePattern) && Phone.Length == 10) && FullnameIsCorrect)
         {
             Pasient pasient = new Pasient(NameTxt.Text, SurnameTxt.Text, PhoneTxt.Text, EmailTxt.Text);
             RegisterPanel.Visible = false;
+            MainPanel.Visible = true;
+            PasientFullnameLbl.Text = pasient.Name + " " + pasient.Surname + " - " + Phone;
+            return;
         }
+        StringBuilder errorMessage = new StringBuilder("");
+
+        if (!Regex.IsMatch(EmailTxt.Text, MailPattern))
+            errorMessage.Append("Email is Incorrect!\n");
+        if (!Regex.IsMatch(Phone, PhonePattern))
+            errorMessage.Append("Phone Number is Incorreсt!\n");
+        if (!FullnameIsCorrect)
+            errorMessage.Append("The full name must contain only letters and cannot be shorter than 3 letters!");
+
+        ErrorLbl.Text = errorMessage.ToString();
+
+
+    }
+
+    protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+    {
+        if (keyData == Keys.Enter)
+        {
+            if (this.ActiveControl.Handle != EnterBtn.Handle)
+                this.SelectNextControl(EmailTxt,true,true,true,true);
+        }
+        return base.ProcessCmdKey(ref msg, keyData);
+    }
+
+    private void Txt_MouseDown(object sender, MouseEventArgs e)
+    {
+        if (e.Button == MouseButtons.Left)
+            ErrorLbl.Text = String.Empty;
     }
 }
