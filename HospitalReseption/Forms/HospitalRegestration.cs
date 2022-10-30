@@ -8,6 +8,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Runtime.Intrinsics.Arm;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -30,6 +31,7 @@ public partial class HospitalRegestration : System.Windows.Forms.Form
         WindowSize = new Size(Size.Width, Size.Height);
         MainPanel.Visible = false;
         RegisterPanel.BringToFront();
+        FakeDataGen(5);
     }
 
     private void HospitalRegestration_SizeChanged(object sender, EventArgs e)
